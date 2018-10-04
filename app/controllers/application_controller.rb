@@ -15,21 +15,17 @@ class ApplicationController < ActionController::Base
 	def scrape_properties
 		# Pull in the page to parse
 		require 'open-uri'
-		# doc is verified opening correctly
+		# doc is verified opening correctly, page must be open in browser
 		@doc = Nokogiri::XML(open("https://s3.amazonaws.com/abodo-misc/sample_abodo_feed.xml"))
 		
 		@propertiesArray = []
-		# Narrow down to properties in Madison to add to array
-		# Select all property elements that have a city element named "Madison"
-		# THIS IS CURRENTLY EMPTY AND SHOULD NOT BE
-  		@properties = @doc.xpath('//Property[City="Madison"]')
-  		@properties.each do |property|
-    		# Get values for id, name and email from each matching property to add to output array
-    		@property_id=property.attr('IDValue')
-    		@name=property.attr('MarketingName')
-    		@email=property.attr('Email')
-    		@propertiesArray << Property.new(property_id, name, email)
-  		end
+		# This should give a nodelist of all Property nodes that have a City descendent somewhere with
+		# the text value = 'Blue'
+  		@properties = @doc.xpath("//Property[descendant::City[text()='Madison']]")
+  		@listSize = @properties.length
+  		# Now, want to take each of these and make a Property object out of each to add to the array
+  		
+  		
   		# Add render here
   		render template: 'scrape_properties'
 	end
