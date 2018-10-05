@@ -1,5 +1,12 @@
+<h5>Properties [</h5>
 <% @propertiesArray.each do |property| %>
-	<%= property.property_id %>
+	<h5>{</h5> 
+	<h5>property_id: <%= property.property_id %>,</h5> 
+	<h5>name: <%= property.property_name %>,</h5>
+	<h5>email: <%= property.email %>,</h5>
+	<h5>}</h5>
+	<% if property != @propertiesArray.last %>
+		<h5>,</h5>
+	<% end %>
 <% end %>
-
-
+<h5>]</h5>
