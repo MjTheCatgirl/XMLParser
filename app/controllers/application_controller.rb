@@ -6,9 +6,18 @@ class ApplicationController < ActionController::Base
       @name = name
       @email = email
     end
-    attr_accessor :property_id
-    attr_accessor :name
-    attr_accessor :email
+
+   def property_id
+   	@property_id
+   end
+
+   def name
+   	@name
+   end
+
+   def email
+   	@email
+   end
   end
 
 	# action to parse and render data from webpage with property info in XML
@@ -37,8 +46,6 @@ class ApplicationController < ActionController::Base
   			# Add this new Property to the array of Properties initialized earlier, no errors
   			@propertiesArray << @newProperty
   		end
-  		# Everything is working properly except display, the properties array contains all the values
-  		# it should
   		
   		render template: 'scrape_properties'
 	end
