@@ -1,26 +1,44 @@
+# Simple application controller that uses Nokogiri to scrape an XML document. The 
+# document is an xml file representing various properties and their info. This controller
+# finds all properties where the city is Madison. It then displays a list that for each 
+# such property, shows its property id, it's name, and the email associated with it. 
+
 class ApplicationController < ActionController::Base
-	# Define class for each property object
+	
+	# Property class where each Property object represents a property from the xml document.
+	# Each Property object is created containing only the attributes from the document that we
+	# are interested in displaying. 
 	class Property
+    # This is used when creating a new property object with the new keyword. You must provide the
+    # constructor with a property_id, name, and email upon creation.
     def initialize(property_id, name, email)
       @property_id = property_id
       @name = name
       @email = email
     end
-
+    # Allows us to access the property_id attribute with dot notation in view
    def property_id
    	@property_id
    end
-
+   # Allows us to access the name attribute with dot notation in view
    def name
    	@name
    end
-
+   # Allows us to access the email attribute with dot notation in view
    def email
    	@email
    end
   end
 
-	# action to parse and render data from webpage with property info in XML
+	# This method does the work of for the controller class. It opens an XML document using 
+	# Nokogiri. Then, it uses Xpath to return a nodeset of only property nodes where they City is
+	# Madison. Using this list, for each node, xpath is used to extract the information we want to
+	# display about that property. That information is used to construct a new Property object which
+	# is added to an array of property objects, @propertiesArray. This array can then be used by our
+	# view to iterate through the array of properties and display each attribute of each one. 
+	# 
+	# This works as expected for the provided XML file, just need to use view to display the info
+	# properly
 	def scrape_properties
 		# Pull in the page to parse
 		require 'open-uri'
