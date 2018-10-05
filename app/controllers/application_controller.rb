@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 		# doc is verified opening correctly, page must be open in browser
 		@doc = Nokogiri::XML(open("https://s3.amazonaws.com/abodo-misc/sample_abodo_feed.xml"))
 		
-		@propertiesArray = []
+		@propertiesArray = Array.new
 		# This should give a nodelist of all Property nodes that have a City descendent somewhere with
 		# the text value = 'Madison'
 		# Now verified that it returns this, checked number of nodes in the list and it was the 
@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
   			newID = node.at_xpath(".//Identification/@IDValue").value
   			newName = node.xpath(".//MarketingName").text
   			newEmail = node.xpath(".//Email").text
+  			# Make a new Property object using these values, no errors now
+  			newProperty = Property.new(newID, newName, newEmail)
+  			# Add this new Property to the array of Properties initialized earlier, no errors
+  			@propertiesArray << newProperty
   		end
   		
   		# Add render here
