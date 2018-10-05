@@ -63,7 +63,21 @@ class ApplicationController < ActionController::Base
   			# Add this new Property to the array of Properties initialized earlier, no errors
   			@propertiesArray << @newProperty
   		end
-  		
+  		# Displays the appropriate template in the browser
   		render template: 'scrape_properties'
+  		# Want to output to console
+  		puts "Properties = ["
+  		@propertiesArray.each do |property|
+  			puts "{"
+  			puts "property_id: " + property.property_id + ","
+  			puts "name: " + property.property_name + ","
+  			puts "email: " + property.email
+  			if property != @propertiesArray.last
+  				puts "},"
+  			else 
+  				puts "}"
+  			end
+  		end
+  		puts "]"
 	end
 end
