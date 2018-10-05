@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
       @name = name
       @email = email
     end
-    attr_reader :property_id
-    attr_reader :name
-    attr_reader :email
+    attr_accessor :property_id
+    attr_accessor :name
+    attr_accessor :email
   end
 
 	# action to parse and render data from webpage with property info in XML
@@ -33,12 +33,13 @@ class ApplicationController < ActionController::Base
   			newName = node.xpath(".//MarketingName").text
   			newEmail = node.xpath(".//Email").text
   			# Make a new Property object using these values, no errors now
-  			newProperty = Property.new(newID, newName, newEmail)
+  			@newProperty = Property.new(newID, newName, newEmail)
   			# Add this new Property to the array of Properties initialized earlier, no errors
-  			@propertiesArray << newProperty
+  			@propertiesArray << @newProperty
   		end
+  		# Everything is working properly except display, the properties array contains all the values
+  		# it should
   		
-  		# Add render here
   		render template: 'scrape_properties'
 	end
 end
