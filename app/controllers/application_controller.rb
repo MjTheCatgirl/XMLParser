@@ -20,11 +20,19 @@ class ApplicationController < ActionController::Base
 		
 		@propertiesArray = []
 		# This should give a nodelist of all Property nodes that have a City descendent somewhere with
-		# the text value = 'Blue'
+		# the text value = 'Madison'
+		# Now verified that it returns this, checked number of nodes in the list and it was the 
+		# correct value.
   		@properties = @doc.xpath("//Property[descendant::City[text()='Madison']]")
-  		@listSize = @properties.length
-  		# Now, want to take each of these and make a Property object out of each to add to the array
-  		
+  	
+  		# Now, want to take info from each node and make a Property object out of it to add to the 
+  		# propertiesArray of Propery objects
+  		@properties.each do |node|
+  			# These three do not throw errors now
+  			newID = node.at_xpath(".//Identification/@IDValue").value
+  			newName = node.xpath(".//MarketingName").text
+  			newEmail = node.xpath(".//Email").text
+  		end
   		
   		# Add render here
   		render template: 'scrape_properties'
